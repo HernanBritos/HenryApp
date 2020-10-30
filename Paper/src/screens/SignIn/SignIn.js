@@ -7,25 +7,42 @@ import {
   Button,
   Caption,
   IconButton,
+  HelperText
 } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { useForm } from "../../hooks/useForm";
 import { GoogleInitialize, signInWithEmail } from "../../dispatchers/auth";
 
 export default function SignIn({ navigation }) {
   const dispatch = useDispatch();
 
-  const initialForm = {
-    email: "",
-    password: "",
-  };
-  const [{ email, password }, handleInputChange] = useForm(initialForm);
+
+
+  let[input, setInput] = React.useState({email:"", password:""})
+  let[error, setError] = React.useState({email:false,password:false})
+
 
   const [isPrivate, setPrivate] = React.useState(true);
 
+  function validate(value){
+    let error={email:false, password:false}
+
+    if(!/\S+@\S+\.\S+/.test(value.email)){
+      error.email = true
+    }
+    if(value.password.length < 9){
+      error.password = true
+    }
+    return error;
+  }
+
+  function handleChange( type, value){
+    setError(validate({...input,[type]: value}))
+    setInput({...input,[type]: value})
+  }
+
   const handleSubmit = () => {
-    dispatch(signInWithEmail(email.trim().toLowerCase(), password));
+    dispatch(signInWithEmail(input.email.trim().toLowerCase(), input.password));
   };
 
   return (
@@ -45,19 +62,20 @@ export default function SignIn({ navigation }) {
         <TextInput
           mode="outlined"
           label="Email"
-          value={email}
-          onChangeText={(email) => handleInputChange("email", email)}
-          style={{ marginBottom: 20 }}
+          onChangeText={(email) => handleChange("email", email)}
+          style={{ marginBottom: 5 }}
         />
+        <HelperText style={{ marginBottom:15}} type="error" visible={error.email}>
+            Introduce un email valido
+        </HelperText>
         <TextInput
           mode="outlined"
           label="Password"
-          value={password}
           onChangeText={(password) => {
             !isPrivate && setPrivate(true);
-            handleInputChange("password", password);
+            handleChange("password", password);
           }}
-          style={{ marginBottom: 30 }}
+          style={{ marginBottom: 5 }}
           secureTextEntry={isPrivate}
           right={
             <TextInput.Icon
@@ -73,6 +91,9 @@ export default function SignIn({ navigation }) {
             />
           }
         />
+        <HelperText type="error" style={{marginBottom:25}} visible={error.password}>
+            La contraseña debe tener al menos 9 caracteres
+        </HelperText>
         <Button
           mode="contained"
           onPress={handleSubmit}
@@ -80,7 +101,7 @@ export default function SignIn({ navigation }) {
         >
           Sign-In
         </Button>
-        <Caption style={{ marginBottom: 10 }}>Recupera tu contraseña</Caption>
+        {/* <Caption style={{ marginBottom: 10 }}>Recupera tu contraseña</Caption>
         <Button
           style={{ marginBottom: 20 }}
           mode="outlined"
@@ -95,7 +116,7 @@ export default function SignIn({ navigation }) {
           onPress={() => navigation.navigate("SignUp")}
         >
           ¡Registrate!
-        </Button>
+        </Button> */}
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <IconButton
             icon={({ color }) => (
@@ -104,12 +125,12 @@ export default function SignIn({ navigation }) {
             onPress={() => dispatch(GoogleInitialize())}
           />
 
-          <IconButton
+{/*           <IconButton
             icon={({ color }) => (
               <AntDesign name="github" size={24} color={color} />
             )}
             onPress={() => alert("github")}
-          />
+          /> */}
         </View>
       </View>
     </View>
