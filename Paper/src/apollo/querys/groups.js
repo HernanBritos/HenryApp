@@ -6,9 +6,11 @@ export const GET_USERS_GROUP= gql`
           id
           givenName
           familyName
+          photoUrl
           nickName
           photoUrl
           email
+
           groups {
             type
             name

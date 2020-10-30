@@ -37,8 +37,6 @@ export default function ChatUser({ route }) {
     }
   }
     `
-
-
   const CREATE_CHAT = gql`
     mutation createGroup($name: String) {
       createGroup(input: { name: $name }) {
@@ -183,5 +181,4 @@ export default function ChatUser({ route }) {
       />
     </View>
   </>
-
 }
