@@ -48,15 +48,3 @@ src: donde se encuentra todo el código
         |-- components: estilos de componentes individuales
         |-- pages: estilos de componentes pages individuales
 ````
- 
-
-
-
-## CLIENT
-REACT_APP_API=http://192.168.1.61:3001
-
-## PAPER
-<!-- # REACT_APP_API_REMOTE=http://api.gardenry.shop:3002 -->
-ANDROID_OAUTH_CLIENT=80624130355-2ejfuk9es2ncdal1enjuspmuscufhq51.apps.googleusercontent.com
-REACT_APP_API_REMOTE=http://192.168.1.61:3001
-SW_APP_API_REMOTE=ws://192.168.1.61:3001/graphql
