@@ -7,6 +7,10 @@ export const GET_USERS_GROUP= gql`
           givenName
           familyName
           photoUrl
+          nickName
+          photoUrl
+          email
+
           groups {
             type
             name
